@@ -1,0 +1,31 @@
+{
+  "name": "imtihani",
+  "version": "1.0.0",
+  "description": "School project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kakaymi10/Imtihani.git"
+  },
+  "author": "Moussa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kakaymi10/Imtihani/issues"
+  },
+  "homepage": "https://github.com/Kakaymi10/Imtihani#readme",
+  "dependencies": {
+    "@firebase/firestore": "^4.3.2",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "firebase": "^10.6.0",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemon": "^3.0.1"
+  },
+  "type": "module"
+}
