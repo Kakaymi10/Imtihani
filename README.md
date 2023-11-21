@@ -19,15 +19,15 @@ This repository contains the source code for ChadLearnHub, an educational softwa
 # Configuration
 - Create a .env file in the project root and add your Firebase credentials:
 
-makefile
+
 Copy code
-`
-FIREBASE_API_KEY=your_api_key
-FIREBASE_AUTH_DOMAIN=your_auth_domain
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_STORAGE_BUCKET=your_storage_bucket
-FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-FIREBASE_APP_ID=your_app_id
+`\n
+FIREBASE_API_KEY=your_api_key\n
+FIREBASE_AUTH_DOMAIN=your_auth_domain\n
+FIREBASE_PROJECT_ID=your_project_id\n
+FIREBASE_STORAGE_BUCKET=your_storage_bucket\n
+FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id\n
+FIREBASE_APP_ID=your_app_id\n
 `
 # Running the App
 - Run the application: `npm start`
