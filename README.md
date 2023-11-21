@@ -12,7 +12,7 @@ This repository contains the source code for ChadLearnHub, an educational softwa
 - Docker installed
 
 # Installation
-- Clone the repository: `git clone https://github.com/yourusername/Imtihani.git`
+- Clone the repository: `git clone https://github.com/Kakaymi10/Imtihani.git`
 - Navigate to the project directory: `cd Imtihani`
 - Install dependencies: `npm install`
   
