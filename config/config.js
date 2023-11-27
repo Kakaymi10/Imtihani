@@ -1,6 +1,7 @@
 // config/config.js
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 import 'dotenv/config';
 
 const {
@@ -22,7 +23,9 @@ const firebaseConfig = {
   appId: FIREBASE_APP_ID,
   measurementId: FIREBASE_MEASUREMENT_ID,
 };
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
 
-export default db;
+const firebaseApp = initializeApp(firebaseConfig);
+const db  = getFirestore(firebaseApp);
+const auth = getAuth(firebaseApp);
+
+export { db, auth };

@@ -1,107 +1,64 @@
 // index.js
 import express from 'express';
-import { User,superAdmin} from './models/users.js';
-import { addSubject, addQuestionToSubject } from './models/quizzController.js';
-import { superAdminLogin } from './models/superAdminController.js';
-import { Points } from './models/pointsControlller.js';
+import { User } from './src/controllers/users.js';
+
 import 'dotenv/config';
-
-
+import { getAllUsers } from './src/controllers/users.js';
+import bodyParser from 'body-parser';
+import router from './src/routes/authRoutes.js';
+import {checkUserRole} from './src/middlewares/checkRoles.js';
+import { subjectRoutes } from './src/routes/subjectRouter.js';  
+import { questionRoutes } from './src/routes/questionRouter.js';
+import { pointRoutes } from './src/routes/pointRouter.js';
 
 const app = express();
-app.use(express.json());
+app.use(bodyParser.json());
+
+const checkAdminRole = checkUserRole(1);
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.post("/superadmin", async (req, res) => {
-  try {
-    const superadmin = req.body;
-    console.log("New user", superadmin);
+app.use(subjectRoutes);
+app.use(questionRoutes);
+app.use(pointRoutes);
+app.use('/auth', router);
 
-    // Call the addUser function from config.js
-    await superAdmin(superadmin);
 
-    res.send("superadmin registered successfully");
-  } catch (err) {
-    res.status(400).send(err.message);
-    console.error(err);
-  }
-});
-app.post("/superadmin/login", async (req, res) => {
-  try {
-    const superadmin = req.body;
-    console.log("New user", superadmin);
-
-    // Call the addUser function from config.js
-    await superAdminLogin(superadmin);
-
-    res.send("superadmin Logged in successfully");
-  } catch (err) {
-    res.status(400).send(err.message);
-    console.error(err);
-  }
-});
 app.post("/user", async (req, res) => {
   try {
-    const user = req.body;
-    console.log("New user", user);
+    const userData = req.body;
 
-    // Call the addUser function from config.js
-    await User(user);
+    // Validate user data
+    console.log("Received data:", userData);
 
-    res.send("User registered successfully");
-  } catch (err) {
-    res.status(400).send(err.message);
-    console.error(err);
-  }
-});
+    // Add user to the database
+    const newUser = await User(userData);
 
-// Route to add a new subject
-app.post("/subject", async (req, res) => {
-  try {
-    const newSubject = req.body;
-    console.log("New subject", newSubject);
-
-    // Call the addSubject function from config.js
-    await addSubject(newSubject);
-
-    res.status(201).send("Subject created successfully");
-  } catch (err) {
-    res.status(400).send(err.message);
-    console.error(err);
-  }
-});
-
-// Route to add a new question to a subject
-app.post('/subject/:subjectName/questions', async (req, res) => {
-  try {
-    const subjectId = req.params.subjectName;
-    const questionData = req.body;
-
-    // Call the addQuestionToSubject function
-    await addQuestionToSubject(subjectId, questionData);
-
-    res.status(201).send("Question added to the subject successfully");
-  } catch (error) {
-    res.status(400).send("Error: " + error.message);
-  }
-});
-app.post('/points', async (req, res) => {
-  try {
-   
-    const pointsData = req.body;
-
-    // Call the addQuestionToSubject function
+    // Add points for the user
+    const pointsData = { name: userData.name, point: 0 };
     await Points(pointsData);
 
-    res.status(201).send("Point added to the subject successfully");
+    console.log("New user registered:", userData);
+
+    res.send(newUser);
+  } catch (err) {
+    // If validation fails or any error occurs, send a 400 Bad Request response
+    res.status(400).send(err.message);
+    console.error(err);
+  }
+});
+app.get("/user", async (req, res) => {  
+  try {
+    const users = await getAllUsers();
+    res.send(users);
   } catch (error) {
-    res.status(400).send("Error: " + error.message);
+    res.status(400).send(error.message);
   }
 });
 
+app.use('/auth', router);
 
 
 

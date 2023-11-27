@@ -1,5 +1,5 @@
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'
-import db from '../config/config.js'
+import * as config from './../../config/config.js';
 
 // models/users.js
 import Joi from 'joi';
@@ -10,14 +10,64 @@ export const userSchema = Joi.object({
   name: Joi.string().required(),
 });
 
-// Validation schema for superadmins
+
+
+export const User = async (userData) => {
+  try {
+    // Validate user data
+    const validatedData = await userSchema.validateAsync(userData);
+
+    // Check if a user with the same name already exists
+    const usersCollection = collection(config.db, 'Users');
+    const nameQuery = query(usersCollection, where('name', '==', validatedData.name));
+    const matchingUsers = await getDocs(nameQuery);
+
+    if (!matchingUsers.empty) {
+      throw new Error('User with the same name already exists');
+    }
+    
+    // Add an initial roleId of 0 to the user data
+    validatedData.roleId = 0;
+
+    // Save the user data to the database
+    const userDocRef = await addDoc(usersCollection, validatedData);
+
+    console.log('User added successfully');
+
+    // Return the user ID
+    return userDocRef.id;
+  } catch (error) {
+    throw new Error("Validation or database error: " + error.message);
+  }
+};
+
+
+export const getAllUsers = async () => {
+  try {
+    const usersCollection = collection(config.db, 'Users');
+    const usersQuery = await getDocs(usersCollection);
+    
+    const users = [];
+    usersQuery.forEach((doc) => {
+      users.push(doc.data());
+    });
+
+    return users;
+  } catch (error) {
+    throw new Error(`Error getting all users: ${error.message}`);
+  }
+};
+
+
+
+  /*// Function to validate and add a superadmin
+
+  // Validation schema for superadmins
 export const superadminSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(), // Adjust the min length as needed
 });
-
-// Function to validate and add a superadmin
 export const superAdmin = async (superadminData) => {
     try {
       // Validate superadmin data
@@ -41,31 +91,7 @@ export const superAdmin = async (superadminData) => {
     } catch (error) {
       throw new Error("Validation or database error: " + error.message);
     }
-  };
-  
-  export const User = async (userData) => {
-    try {
-      // Validate user data
-      const validatedData = await userSchema.validateAsync(userData);
-  
-      // Check if a user with the same name already exists
-      const usersCollection = collection(db, 'Users');
-      const nameQuery = query(usersCollection, where('name', '==', validatedData.name));
-      const matchingUsers = await getDocs(nameQuery);
-  
-      if (!matchingUsers.empty) {
-        throw new Error('User with the same name already exists');
-      }
-  
-      // Save the user data to the database
-      await addDoc(usersCollection, validatedData);
-  
-      console.log('User added successfully');
-    } catch (error) {
-      throw new Error("Validation or database error: " + error.message);
-    }
-  };
-
+  };*/
 /*const User = async (user) => {
     try {
       const usersCollection = collection(db, 'Users');
