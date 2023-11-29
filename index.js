@@ -2,6 +2,7 @@
 import express from 'express';
 import 'dotenv/config';
 import bodyParser from 'body-parser';
+import cors from 'cors'; 
 import router from './src/routes/authRoutes.js';
 import { subjectRoutes } from './src/routes/subjectRouter.js';
 import { questionRoutes } from './src/routes/questionRouter.js';
@@ -12,6 +13,9 @@ import swaggerUi from 'swagger-ui-express';
 
 const app = express();
 app.use(bodyParser.json());
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Define routes
 app.get("/", (req, res) => {
