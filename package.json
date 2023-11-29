@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "generate-swagger": "node ./src/swagger/swagger.js"
+    "generate-swagger": "node ./src/swagger/swagger.js",
+    "build": "echo 'Build step not needed for Node.js'"
   },
   
   "repository": {
