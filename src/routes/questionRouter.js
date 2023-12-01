@@ -10,7 +10,7 @@ import { checkUserRole } from '../middlewares/checkRoles.js';
 
 const questionRoutes = express.Router();
 
-questionRoutes.post("/subject/:subjectName/", checkUserRole, async (req, res) => {
+questionRoutes.post("/subject/:subjectName/", checkUserRole(1), async (req, res) => {
   // Your route logic here
   try {
     const subjectId = req.params.subjectName;
@@ -25,7 +25,7 @@ questionRoutes.post("/subject/:subjectName/", checkUserRole, async (req, res) =>
   }
 });
 
-questionRoutes.put("/questions/:id", checkUserRole, async (req, res) => {
+questionRoutes.put("/questions/:id", checkUserRole(1), async (req, res) => {
   // Your route logic here
   try {
     const questionId = req.params.id;
@@ -40,7 +40,7 @@ questionRoutes.put("/questions/:id", checkUserRole, async (req, res) => {
   }
 });
 
-questionRoutes.delete("/questions/:id", checkUserRole, async (req, res) => {
+questionRoutes.delete("/questions/:id", checkUserRole(1), async (req, res) => {
   // Your route logic here
   try {
     const questionId = req.params.id;
