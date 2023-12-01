@@ -10,7 +10,7 @@ import { checkUserRole } from '../middlewares/checkRoles.js';
 
 const subjectRoutes = express.Router();
 
-subjectRoutes.post("/subject", checkUserRole, async (req, res) => {
+subjectRoutes.post("/subject", checkUserRole(1), async (req, res) => {
   // Your route logic here
   try {
     const newSubject = req.body;
@@ -26,7 +26,7 @@ subjectRoutes.post("/subject", checkUserRole, async (req, res) => {
   }
 });
 
-subjectRoutes.put("/subject/:subjectName", checkUserRole, async (req, res) => {
+subjectRoutes.put("/subject/:subjectName", checkUserRole(1), async (req, res) => {
   // Your route logic here
   try {
     const subjectName = req.params.subjectName;
@@ -43,7 +43,7 @@ subjectRoutes.put("/subject/:subjectName", checkUserRole, async (req, res) => {
   }
 });
 
-subjectRoutes.delete("/subject/:subjectName", checkUserRole, async (req, res) => {
+subjectRoutes.delete("/subject/:subjectName", checkUserRole(1), async (req, res) => {
   // Your route logic here
   try {
     const newSubject = req.params.subjectName;
